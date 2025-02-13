@@ -130,7 +130,7 @@ Python's flexibility, extensive libraries, and strong community make it the best
     readTime: '10 min read',
     category: 'Data Science',
     tags: ['Python', 'Data Science', 'Machine Learning', 'Tutorial'],
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1000',
+    image: 'https://i.postimg.cc/7ZqMdRp2/firmbee-com-Sp-VHcbu-Ki6-E-unsplash.jpg',
     examples: [
       {
         title: 'Basic Data Analysis with Pandas',
