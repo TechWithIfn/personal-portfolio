@@ -12,7 +12,7 @@ export function EducationPage() {
       achievements: [
         'Published research paper on ML applications in healthcare',
         'Led the college coding club',
-        'Won first place in national hackathon'
+        'Won first place in hackthon'
       ],
       image: "https://i.postimg.cc/CKpJ8jVw/Delhi-Technical-Campus7-o.png"
     }
