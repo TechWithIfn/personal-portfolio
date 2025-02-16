@@ -53,10 +53,10 @@ export function HomePage() {
     },
     {
       icon: <Award className="w-6 h-6 text-primary" />,
-      year: '2023',
-      title: 'Hackathon Winner',
-      subtitle: 'National Tech Festival',
-      description: 'First place for AI-based healthcare solution'
+      year: '2025',
+      title: 'Hackathon Partycipate',
+      subtitle: 'Delhi Technical Campus',
+      description: 'My Projects A2Z Notes'
     }
   ];
 
