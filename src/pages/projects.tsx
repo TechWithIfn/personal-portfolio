@@ -14,7 +14,7 @@ const projects = [
     tags: ["Python", "HTML/CSS", "JavaScript", "Node.js"],
     github: "https://github.com/TechWithIfn/GeniusTestHub",
     demo: "https://scintillating-pithivier-3debe4.netlify.app/",
-    category: "AI",
+   
   },
   {
     title: "E-commerce Price Tracker",
