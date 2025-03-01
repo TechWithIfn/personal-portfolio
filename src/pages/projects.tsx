@@ -5,12 +5,12 @@ import { Button } from '../components/ui/button';
 
 const projects = [
   {
-    title: 'AI-Based Resume Analyzer',
-    description: 'An intelligent system that analyzes resumes using NLP techniques to extract key information and provide insights.',
+    title: 'GeniusTestHub',
+    description: '🚀 GeniusTestHub is a comprehensive platform designed for Computer Science students and job seekers to prepare for aptitude and technical tests from top companies. It includes DSA, Aptitude, Logical Reasoning, and Coding Challenges to help users crack competitive exams.',
     image: 'https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?auto=format&fit=crop&w=800&q=80',
-    tags: ['Python', 'NLP', 'Machine Learning', 'Flask'],
-    github: 'https://github.com',
-    demo: 'https://demo.com',
+    tags: ['Python', 'html , css ', 'JavaScript', 'NodeJs , Etc'],
+    github: 'https://github.com/TechWithIfn/GeniusTestHub',
+    demo: 'https://i.postimg.cc/Wpn3CKYq/Screenshot-2025-03-01-183144.png',
     category: 'AI'
   },
   {
