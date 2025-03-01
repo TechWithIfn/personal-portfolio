@@ -2,9 +2,8 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { Github, ExternalLink, Code, BookOpen, Database, Cpu, Layers, Rocket, Star } from "lucide-react"
+import { Github, ExternalLink, Search, Code, BookOpen, Database, Cpu, Layers, Rocket } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 
 const projects = [
   {
@@ -15,7 +14,7 @@ const projects = [
     tags: ["Python", "HTML/CSS", "JavaScript", "Node.js"],
     github: "https://github.com/TechWithIfn/GeniusTestHub",
     demo: "https://scintillating-pithivier-3debe4.netlify.app/",
-    category: "AI",
+   
   },
   {
     title: "E-commerce Price Tracker",
@@ -45,6 +44,7 @@ const projects = [
     demo: "https://demo.com",
     category: "Web Development",
   },
+  // New projects added below
   {
     title: "AI Image Generator",
     description:
@@ -78,14 +78,19 @@ const projects = [
 ]
 
 export function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = React.useState("")
+  const [searchTerm, setSearchTerm] = React.useState("")
+  const [selectedCategory, setSelectedCategory] = React.useState("All")
 
-  // Updated categories, removed 'All'
-  const categories = ["Web Development", "AI", "Web Scraping", "Data Analytics", "IoT"]
+  // Updated categories to include IoT
+  const categories = ["All", "Web Development", "AI", "Web Scraping", "Data Analytics", "IoT"]
 
-  const filteredProjects = selectedCategory
-    ? projects.filter((project) => project.category === selectedCategory)
-    : projects
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = selectedCategory === "All" || project.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
 
   // Function to get appropriate icon for a category
   const getCategoryIcon = (category) => {
@@ -106,60 +111,50 @@ export function ProjectsPage() {
   }
 
   return (
-    <div className="min-h-screen py-20 bg-gradient-to-b from-background to-background/80">
+    <div className="min-h-screen pt-20 pb-16 bg-background">
       <div className="container px-4 mx-auto">
         <div className="max-w-6xl mx-auto space-y-12">
-          <motion.div
-            className="space-y-4 text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              Projects
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A collection of my recent work and personal projects showcasing my skills and expertise.
-            </p>
-          </motion.div>
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold tracking-tight">Projects</h1>
+            <p className="text-lg text-muted-foreground">A collection of my recent work and personal projects.</p>
+          </div>
 
-          {/* Category Filter */}
-          <motion.div
-            className="flex justify-center flex-wrap gap-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Button
-              variant={selectedCategory === "" ? "default" : "outline"}
-              onClick={() => setSelectedCategory("")}
-              className="flex items-center gap-2"
-            >
-              <Rocket className="w-4 h-4" />
-              All Projects
-            </Button>
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category)}
-                className="flex items-center gap-2"
-              >
-                {getCategoryIcon(category)}
-                {category}
-              </Button>
-            ))}
-          </motion.div>
+          {/* Search and Filter */}
+          <div className="flex flex-col md:flex-row gap-4 items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                className="w-full pl-10 pr-4 py-2 rounded-md border bg-background"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(category)}
+                  className="flex items-center gap-2"
+                >
+                  {category !== "All" && getCategoryIcon(category)}
+                  {category}
+                </Button>
+              ))}
+            </div>
+          </div>
 
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group flex flex-col h-full bg-card rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+                className="group bg-card rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="aspect-video relative overflow-hidden">
                   <img
@@ -167,31 +162,29 @@ export function ProjectsPage() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform group-hover:scale-105"
                   />
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      {getCategoryIcon(project.category)}
-                      <span>{project.category}</span>
-                    </Badge>
+                  <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium">
+                    {getCategoryIcon(project.category)}
+                    <span className="ml-1">{project.category}</span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3 flex-grow">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                </div>
+                <div className="p-6 space-y-4">
+                  <h3 className="text-xl font-semibold">{project.title}</h3>
+                  <p className="text-muted-foreground line-clamp-3">{project.description}</p>
+                  <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
                       <span key={tag} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-3 mt-auto">
-                    <Button variant="outline" size="sm" className="flex-1" asChild>
+                  <div className="flex gap-4 pt-2">
+                    <Button variant="outline" size="sm" asChild>
                       <a href={project.github} target="_blank" rel="noopener noreferrer">
                         <Github className="w-4 h-4 mr-2" />
                         Code
                       </a>
                     </Button>
-                    <Button variant="default" size="sm" className="flex-1" asChild>
+                    <Button variant="default" size="sm" asChild>
                       <a href={project.demo} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Live Demo
@@ -204,35 +197,13 @@ export function ProjectsPage() {
           </div>
 
           {filteredProjects.length === 0 && (
-            <motion.div
-              className="text-center py-16 bg-card rounded-lg border"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Rocket className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-2xl font-medium">No projects found</h3>
-              <p className="text-muted-foreground mt-2 mb-4">There are no projects in this category yet.</p>
-              <Button variant="outline" onClick={() => setSelectedCategory("")}>
-                View all projects
-              </Button>
-            </motion.div>
+            <div className="text-center py-12">
+              <h3 className="text-xl font-medium">No projects found</h3>
+              <p className="text-muted-foreground mt-2">Try adjusting your search or filter criteria</p>
+            </div>
           )}
-
-          <motion.div
-            className="text-center pt-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <p className="text-muted-foreground flex items-center justify-center gap-2">
-              <Star className="w-4 h-4 text-yellow-500" />
-              More projects coming soon!
-            </p>
-          </motion.div>
         </div>
       </div>
     </div>
   )
 }
-
