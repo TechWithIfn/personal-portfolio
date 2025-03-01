@@ -54,9 +54,9 @@ export function HomePage() {
     {
       icon: <Award className="w-6 h-6 text-primary" />,
       year: '2025',
-      title: 'Hackathon Partycipate',
+      title: 'Foss Hack 2025',
       subtitle: 'Delhi Technical Campus',
-      description: 'My Projects A2Z Notes'
+      description: 'Project: GeniusTestHub'
     }
   ];
 
