@@ -1,15 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import React, { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { GraduationCap, Award, ExternalLink, X } from "lucide-react"
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 export function EducationPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const education = [
     {
@@ -53,10 +51,34 @@ export function EducationPage() {
     },
   ]
 
-  const openImageDialog = (imageUrl: string) => {
+  const openImageModal = (imageUrl: string) => {
     setSelectedImage(imageUrl)
-    setIsDialogOpen(true)
+    setIsModalOpen(true)
+    // Prevent scrolling when modal is open
+    document.body.style.overflow = "hidden"
   }
+
+  const closeImageModal = () => {
+    setIsModalOpen(false)
+    // Re-enable scrolling
+    document.body.style.overflow = "auto"
+  }
+
+  // Handle ESC key press to close modal
+  React.useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeImageModal()
+      }
+    }
+    window.addEventListener("keydown", handleEsc)
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc)
+      // Make sure to re-enable scrolling when component unmounts
+      document.body.style.overflow = "auto"
+    }
+  }, [])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -87,6 +109,36 @@ export function EducationPage() {
       scale: 1.02,
       boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
       transition: { duration: 0.3, ease: "easeInOut" },
+    },
+  }
+
+  const modalVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.2 },
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.2 },
+    },
+  }
+
+  const modalContentVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 25,
+      },
+    },
+    exit: {
+      scale: 0.8,
+      opacity: 0,
+      transition: { duration: 0.2 },
     },
   }
 
@@ -124,7 +176,7 @@ export function EducationPage() {
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.5 }}
-                      onClick={() => openImageDialog(edu.image)}
+                      onClick={() => openImageModal(edu.image)}
                     />
                   </div>
                   <motion.div
@@ -213,7 +265,7 @@ export function EducationPage() {
                   whileHover="hover"
                   initial="rest"
                   className="bg-card rounded-lg border overflow-hidden shadow-sm cursor-pointer"
-                  onClick={() => openImageDialog(cert.image)}
+                  onClick={() => openImageModal(cert.image)}
                 >
                   <div className="aspect-video w-full overflow-hidden relative group">
                     <motion.img
@@ -246,25 +298,42 @@ export function EducationPage() {
         </div>
       </div>
 
-      {/* Image Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl w-[90vw] max-h-[90vh] p-0 overflow-hidden">
-          <div className="relative w-full h-full">
-            <DialogClose className="absolute top-2 right-2 z-10">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full bg-background/80 backdrop-blur-sm hover:bg-background/90"
+      {/* Custom Image Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={modalVariants}
+            onClick={closeImageModal}
+          >
+            <motion.div
+              className="relative max-w-4xl w-[90vw] max-h-[90vh] p-4"
+              variants={modalContentVariants}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="absolute top-2 right-2 z-10 p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                onClick={closeImageModal}
               >
-                <X className="h-4 w-4" />
-              </Button>
-            </DialogClose>
-            <div className="w-full h-full flex items-center justify-center bg-black/90 p-4">
-              <img src={selectedImage || ""} alt="Certificate" className="max-w-full max-h-[80vh] object-contain" />
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+                <X className="h-5 w-5" />
+              </button>
+              <div className="w-full h-full flex items-center justify-center">
+                <motion.img
+                  src={selectedImage || ""}
+                  alt="Certificate"
+                  className="max-w-full max-h-[80vh] object-contain"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
