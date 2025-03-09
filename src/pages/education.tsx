@@ -32,10 +32,10 @@ export function EducationPage() {
       image: 'https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&q=80&w=800'
     },
     {
-      name: 'Data Science & Machine Learning',
-      issuer: 'DataCamp',
-      date: '2022',
-      image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=800'
+      name: 'Summer Tranning Internship',
+      issuer: 'CodSoft',
+      date: 'Sep 2024',
+      image: 'https://i.postimg.cc/Hn7SGtBj/Screenshot-2024-11-08-195312.png'
     }
   ];
 
