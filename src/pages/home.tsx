@@ -163,7 +163,7 @@ export function HomePage() {
                 {[
                   { icon: <Github className="w-4 md:w-5 h-4 md:h-5" />, color: "hover:bg-gray-700", link: "https://github.com/TechWithIfn" },
                   { icon: <Linkedin className="w-4 md:w-5 h-4 md:h-5" />, color: "hover:bg-blue-600", link: "https://www.linkedin.com/in/irfan-ansari04m/" },
-                  { icon: <Instagram className="w-4 md:w-5 h-4 md:h-5" />, color: "hover:bg-pink-600", link: "https://www.instagram.com/irfan_04m/" }
+                  { icon: <Instagram className="w-4 md:w-5 h-4 md:h-5" />, color: "hover:bg-pink-600", link: "https://www.instagram.com/ansari_04m/" }
                 ].map((social, index) => (
                   <motion.div
                     key={index}
